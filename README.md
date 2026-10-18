@@ -105,7 +105,18 @@ Or use containers:
 
 `integration_test` verifies a multi-stripe round trip, 16 concurrent readers, checksum equality, metadata listing, and deletion. `stress_test` launches 210 concurrent client threads and creates and reads back 216 independently striped files. It exits nonzero on any failed client, missing file, or byte mismatch and prints elapsed time and completed operations per second.
 
-Benchmark numbers are intentionally not hard-coded in this README. Hardware, container runtime, filesystem, and build type materially affect throughput; use the command above and report its complete output. A run is valid only when `successful_files=216` and `failures=0`.
+Do not treat a benchmark result as portable across machines: hardware, container runtime, filesystem, and build type materially affect throughput. A run is valid only when `successful_files=216` and `failures=0`.
+
+### Verified reference run
+
+GitHub Actions run [39163729306](https://github.com/vishnusangadala/Parallel-File-System/actions/runs/39163729306) built commit `fce265f` in Release mode on an `ubuntu-24.04` hosted runner and completed the native eight-node suite on October 18, 2026:
+
+```text
+PASS round-trip, striping, 16 concurrent readers, delete
+clients=210 files=216 successful_files=216 failures=0 elapsed_ms=677 ops_per_sec=638.109
+```
+
+The same run also completed the CTest suite and multi-stage Docker image build. This is one CI-run measurement, not a general hardware performance claim.
 
 ## Consistency and failure behavior
 
